@@ -1,5 +1,5 @@
-docker_name = larasocial_web_1
-docker_image = larasocial_web
+docker_name = larainit_web_1
+docker_image = larainit_web
 
 help: #prints list of commands
 	@cat ./makefile | grep : | grep -v "grep"
@@ -23,7 +23,7 @@ composer_dump: #update vendors
 	@sudo docker exec -it $(docker_name) bash -c 'php composer.phar dump-autoload'
 
 set_env: #set default environments
-	@cp ./.env.example ./.env
+	@cp ./.env.example ./.env && sudo docker exec -it $(docker_name) bash -c 'php artisan key:generate'
 
 create_controller: #create controller name=[controllerName]
 	@sudo docker exec -it $(docker_name) bash -c 'php artisan make:controller $(name) && chmod -R 777 .'
